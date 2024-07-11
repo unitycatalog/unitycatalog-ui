@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import DetailsLayout from '../components/layouts/DetailsLayout';
 import FunctionSidebar from '../components/functions/FunctionSidebar';
 import { useGetFunction } from '../hooks/functions';
@@ -19,6 +19,18 @@ export default function FunctionDetails() {
   return (
     <DetailsLayout
       title={<Typography.Title level={3}>{ucFunction}</Typography.Title>}
+      breadcrumbs={[
+        { title: <Link to="/">Catalogs</Link>, key: '_home' },
+        {
+          title: <Link to={`/data/${catalog}`}>{catalog}</Link>,
+          key: '_catalog',
+        },
+        {
+          title: <Link to={`/data/${catalog}/${schema}`}>{schema}</Link>,
+          key: '_schema',
+        },
+        { title: ucFunction, key: '_ucFunction' },
+      ]}
     >
       <DetailsLayout.Content>
         <DescriptionBox comment={data?.comment} />
