@@ -5,6 +5,7 @@ import FunctionSidebar from '../components/functions/FunctionSidebar';
 import { useGetFunction } from '../hooks/functions';
 import DescriptionBox from '../components/DescriptionBox';
 import { Typography } from 'antd';
+import { FunctionOutlined } from '@ant-design/icons';
 
 export default function FunctionDetails() {
   const { catalog, schema, ucFunction } = useParams();
@@ -18,7 +19,11 @@ export default function FunctionDetails() {
 
   return (
     <DetailsLayout
-      title={<Typography.Title level={3}>{ucFunction}</Typography.Title>}
+      title={
+        <Typography.Title level={3}>
+          <FunctionOutlined /> {ucFunction}
+        </Typography.Title>
+      }
       breadcrumbs={[
         { title: <Link to="/">Catalogs</Link>, key: '_home' },
         {
