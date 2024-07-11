@@ -49,3 +49,19 @@ export function useGetSchema({ catalog, schema }: GetSchemaParams) {
     },
   });
 }
+
+interface GetSchemaParams {
+  catalog: string;
+  schema: string;
+}
+export function useGetSchema({ catalog, schema }: GetSchemaParams) {
+  return useQuery<SchemaInterface>({
+    queryKey: ['getSchema', catalog, schema],
+    queryFn: async () => {
+      const fullName = [catalog, schema].join('.');
+
+      const response = await fetch(`${UC_API_PREFIX}/schemas/${fullName}`);
+      return response.json();
+    },
+  });
+}
