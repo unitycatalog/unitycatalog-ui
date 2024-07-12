@@ -5,6 +5,7 @@ import {
 } from '../../hooks/catalog';
 import { useCallback, useRef } from 'react';
 import TextArea from 'antd/es/input/TextArea';
+import { useNavigate } from 'react-router-dom';
 
 interface CreateCatalogModalProps {
   open: boolean;
@@ -15,7 +16,12 @@ export function CreateCatalogModal({
   open,
   closeModal,
 }: CreateCatalogModalProps) {
-  const mutation = useCreateCatalog({ onSuccessCallback: closeModal });
+  const navigate = useNavigate();
+  const mutation = useCreateCatalog({
+    onSuccessCallback: (catalog) => {
+      navigate(`/data/${catalog.name}`);
+    },
+  });
   const submitRef = useRef<HTMLButtonElement>(null);
 
   const handleSubmit = useCallback(() => {

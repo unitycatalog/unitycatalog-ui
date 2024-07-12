@@ -58,19 +58,16 @@ export function useCreateCatalog({
         },
         body: JSON.stringify(params),
       });
+      if (!response.ok) {
+        // TODO: Expose error message
+        throw new Error('Failed to create catalog');
+      }
       return response.json();
     },
     onSuccess: (catalog) => {
-      queryClient.setQueryData<ListCatalogsResponse>(
-        ['listCatalogs'],
-        (data) => {
-          if (!data) return data;
-          return {
-            catalogs: [...data.catalogs, catalog],
-            next_page_token: data.next_page_token,
-          };
-        }
-      );
+      queryClient.invalidateQueries({
+        queryKey: ['listCatalogs'],
+      });
       onSuccessCallback?.(catalog);
     },
   });
