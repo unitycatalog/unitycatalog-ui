@@ -4,8 +4,9 @@ import DetailsLayout from '../components/layouts/DetailsLayout';
 import FunctionSidebar from '../components/functions/FunctionSidebar';
 import { useGetFunction } from '../hooks/functions';
 import DescriptionBox from '../components/DescriptionBox';
-import { Typography } from 'antd';
+import { Flex, Typography } from 'antd';
 import { FunctionOutlined } from '@ant-design/icons';
+import CodeBox from '../components/CodeBox';
 
 export default function FunctionDetails() {
   const { catalog, schema, ucFunction } = useParams();
@@ -38,7 +39,10 @@ export default function FunctionDetails() {
       ]}
     >
       <DetailsLayout.Content>
-        <DescriptionBox comment={data?.comment} />
+        <Flex vertical gap="middle">
+          <DescriptionBox comment={data?.comment} />
+          <CodeBox definition={data.routine_definition} />
+        </Flex>
       </DetailsLayout.Content>
       <DetailsLayout.Aside>
         <FunctionSidebar

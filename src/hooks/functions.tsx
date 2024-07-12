@@ -8,6 +8,7 @@ export interface FunctionInterface {
   name: string;
   comment: string;
   external_language: string;
+  routine_definition: string;
   created_at: number;
   updated_at: number | null;
 }
