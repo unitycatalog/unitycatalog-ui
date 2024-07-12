@@ -6,7 +6,6 @@ interface CodeBoxProps {
 }
 
 export default function CodeBox({ definition }: CodeBoxProps) {
-  console.log({ definition: definition.split('\\n') });
   return (
     <div>
       <Typography.Title level={5}>Definition</Typography.Title>
