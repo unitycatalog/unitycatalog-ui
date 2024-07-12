@@ -5,6 +5,7 @@ import { Flex, Typography } from 'antd';
 import DescriptionBox from '../components/DescriptionBox';
 import { useGetVolume } from '../hooks/volumes';
 import VolumeSidebar from '../components/volumes/VolumeSidebar';
+import { FolderOutlined } from '@ant-design/icons';
 
 export default function VolumeDetails() {
   const { catalog, schema, volume } = useParams();
@@ -19,7 +20,11 @@ export default function VolumeDetails() {
   const volumeFullName = [catalog, schema, volume].join('.');
   return (
     <DetailsLayout
-      title={<Typography.Title level={3}>{volumeFullName}</Typography.Title>}
+      title={
+        <Typography.Title level={3}>
+          <FolderOutlined /> {volumeFullName}
+        </Typography.Title>
+      }
       breadcrumbs={[
         { title: <Link to="/">Catalogs</Link>, key: '_home' },
         {
