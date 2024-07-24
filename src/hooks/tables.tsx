@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
 import { UC_API_PREFIX } from '../utils/constants';
 
 interface ColumnInterface {
@@ -63,6 +63,35 @@ export function useGetTable({ catalog, schema, table }: GetTableParams) {
 
       const response = await fetch(`${UC_API_PREFIX}/tables/${fullName}`);
       return response.json();
+    },
+  });
+}
+
+export interface DeleteTableMutationParams extends Pick<TableInterface, 'catalog_name' | 'schema_name' | 'name'> {}
+
+interface DeleteTableParams {
+  onSuccessCallback?: (success: boolean) => void;
+}
+
+export function useDeleteTable({ onSuccessCallback }: DeleteTableParams = {}) {
+  const queryClient = useQueryClient();
+
+  return useMutation<TableInterface, unknown, DeleteTableMutationParams>({
+    mutationFn: async (params: DeleteTableMutationParams) => {
+      const response = await fetch(`${UC_API_PREFIX}/tables/${params.catalog_name}.${params.schema_name}.${params.name}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete table');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['listTables'] });
+      onSuccessCallback?.(true);
     },
   });
 }
