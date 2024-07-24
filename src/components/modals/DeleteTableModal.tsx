@@ -1,5 +1,5 @@
-import {  Modal, Typography } from 'antd';
-import { useCallback, useRef } from 'react';
+import { Modal, Typography } from 'antd';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDeleteTable } from '../../hooks/tables';
 
@@ -22,19 +22,22 @@ export function DeleteTableModal({
 }: DeleteTableModalProps) {
   const navigate = useNavigate();
   const mutation = useDeleteTable({
-    onSuccessCallback: (result) => {
-      console.log('Table deleted', result);
+    onSuccessCallback: () => {
+      localStorage.setItem('notification', JSON.stringify({
+        message: `${table} table successfully deleted`,
+        type: 'success'
+      }));
       navigate(`/data/${catalog}/${schema}`);
     },
   });
 
   const handleSubmit = useCallback(() => {
-    mutation.mutate({ catalog_name: catalog, schema_name: schema, name: table });
-  }, [mutation, catalog, schema, tableFullName]);
+    mutation.mutate({ catalog_name: catalog, schema_name: schema, name: table } );
+  }, [mutation, catalog, schema, table]);
 
   return (
     <Modal
-      title={<Typography.Title level={4}>Delete table</Typography.Title>}
+      title={<Typography.Title type={'danger'} level={4}>Delete table</Typography.Title>}
       okText="Delete"
       okType="danger"
       cancelText="Cancel"
@@ -44,9 +47,15 @@ export function DeleteTableModal({
       onOk={handleSubmit}
       okButtonProps={{ loading: mutation.isPending }}
     >
-      <Typography.Paragraph type="danger">
-        {`Are you sure you want to delete the table ${tableFullName}? This operation cannot be undone.`}
-      </Typography.Paragraph>
+      <Typography.Text>
+        {`Are you sure you want to delete the table `}
+      </Typography.Text>
+      <Typography.Text strong>
+        {tableFullName}
+      </Typography.Text>
+      <Typography.Text>
+        {`? This operation cannot be undone. `}
+      </Typography.Text>
 
     </Modal>
   );

@@ -70,14 +70,14 @@ export function useGetTable({ catalog, schema, table }: GetTableParams) {
 export interface DeleteTableMutationParams extends Pick<TableInterface, 'catalog_name' | 'schema_name' | 'name'> {}
 
 interface DeleteTableParams {
-  onSuccessCallback?: (success: boolean) => void;
+  onSuccessCallback?: () => void;
 }
 
 export function useDeleteTable({ onSuccessCallback }: DeleteTableParams = {}) {
   const queryClient = useQueryClient();
 
-  return useMutation<TableInterface, unknown, DeleteTableMutationParams>({
-    mutationFn: async (params: DeleteTableMutationParams) => {
+  return useMutation<void, unknown, DeleteTableMutationParams>({
+    mutationFn: async (params: DeleteTableMutationParams) : Promise<void> => {
       const response = await fetch(`${UC_API_PREFIX}/tables/${params.catalog_name}.${params.schema_name}.${params.name}`, {
         method: 'DELETE',
         headers: {
@@ -87,11 +87,12 @@ export function useDeleteTable({ onSuccessCallback }: DeleteTableParams = {}) {
       if (!response.ok) {
         throw new Error('Failed to delete table');
       }
-      return response.json();
+
+      return;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['listTables'] });
-      onSuccessCallback?.(true);
+      onSuccessCallback?.();
     },
   });
 }
