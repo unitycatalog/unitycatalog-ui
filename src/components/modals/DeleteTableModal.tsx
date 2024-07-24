@@ -2,6 +2,7 @@ import { Modal, Typography } from 'antd';
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDeleteTable } from '../../hooks/tables';
+import { useNotification } from '../../utils/NotificationContext';
 
 interface DeleteTableModalProps {
   open: boolean;
@@ -21,12 +22,10 @@ export function DeleteTableModal({
   table,
 }: DeleteTableModalProps) {
   const navigate = useNavigate();
+  const { setNotification } = useNotification();
   const mutation = useDeleteTable({
     onSuccessCallback: () => {
-      localStorage.setItem('notification', JSON.stringify({
-        message: `${table} table successfully deleted`,
-        type: 'success'
-      }));
+      setNotification(`${table} table successfully deleted`, 'success');
       navigate(`/data/${catalog}/${schema}`);
     },
   });

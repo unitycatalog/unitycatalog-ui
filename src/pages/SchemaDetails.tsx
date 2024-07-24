@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import DetailsLayout from '../components/layouts/DetailsLayout';
-import { Flex, notification, Radio, Typography } from 'antd';
+import { Flex, Radio, Typography } from 'antd';
 import DescriptionBox from '../components/DescriptionBox';
 import { useGetSchema } from '../hooks/schemas';
 import SchemaSidebar from '../components/schemas/SchemaSidebar';
@@ -11,11 +11,6 @@ import FunctionsList from '../components/functions/FunctionsList';
 import { DatabaseOutlined } from '@ant-design/icons';
 import CreateAssetsDropdown from '../components/schemas/CreateAssetsDropdown';
 
-interface NotificationData {
-  message: string;
-  type: 'success' | 'error' | 'info' | 'warning';
-}
-
 export default function SchemaDetails() {
   const { catalog, schema } = useParams();
   if (!catalog) throw new Error('Catalog name is required');
@@ -23,19 +18,6 @@ export default function SchemaDetails() {
 
   const { data } = useGetSchema({ catalog, schema });
   const schemaFullName = [catalog, schema].join('.');
-
-  useEffect(() => {
-    const notificationData = localStorage.getItem('notification');
-    if (notificationData) {
-      const { message, type }: NotificationData = JSON.parse(notificationData);
-
-      notification[type]({
-        message: message,
-      });
-
-      localStorage.removeItem('notification');
-    }
-  }, []);
 
   if (!data) return null;
 

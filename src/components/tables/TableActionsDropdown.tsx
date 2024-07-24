@@ -10,6 +10,11 @@ interface TableActionDropdownProps {
   tableFullName: string;
 }
 
+enum TableActionsEnum {
+  Delete,
+  Rename
+}
+
 
 export default function TableActionsDropdown({
   catalog,
@@ -18,14 +23,14 @@ export default function TableActionsDropdown({
   tableFullName,
 }: TableActionDropdownProps) {
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [action, setAction] = useState<TableActionsEnum | null>(null);
 
   const menuItems = useMemo(
     (): MenuProps['items'] => [
       {
         key: 'deleteTable',
         label: 'Delete Table',
-        onClick: () => setOpenModal(true),
+        onClick: () => setAction(TableActionsEnum.Delete),
         icon: <DeleteOutlined />,
         danger: true
       },
@@ -49,8 +54,8 @@ export default function TableActionsDropdown({
           />}  />
       </Dropdown>
       <DeleteTableModal
-        open={openModal}
-        closeModal={() => setOpenModal(false)}
+        open={action === TableActionsEnum.Delete}
+        closeModal={() => setAction(null)}
         tableFullName={tableFullName}
         catalog={catalog}
         schema={schema}

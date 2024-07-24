@@ -87,11 +87,9 @@ export function useDeleteTable({ onSuccessCallback }: DeleteTableParams = {}) {
       if (!response.ok) {
         throw new Error('Failed to delete table');
       }
-
-      return;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['listTables'] });
+      queryClient.invalidateQueries({ queryKey: ['listTables', 'catalog', 'schema'] });
       onSuccessCallback?.();
     },
   });
