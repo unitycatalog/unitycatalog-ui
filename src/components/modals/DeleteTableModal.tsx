@@ -1,5 +1,5 @@
 import { Modal, Typography } from 'antd';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDeleteTable } from '../../hooks/tables';
 import { useNotification } from '../../utils/NotificationContext';
@@ -29,7 +29,7 @@ export function DeleteTableModal({
     catalog,
     schema
   });
-  const tableFullName = [catalog, schema, table].join('.');
+  const tableFullName = useMemo(() => [catalog, schema, table].join('.'), [catalog, schema, table]);
   const handleSubmit = useCallback(() => {
     mutation.mutate({ catalog_name: catalog, schema_name: schema, name: table } );
   }, [mutation, catalog, schema, table]);
