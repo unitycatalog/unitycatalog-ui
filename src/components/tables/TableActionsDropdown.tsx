@@ -45,7 +45,7 @@ export default function TableActionsDropdown({
         trigger={['click']}
         onOpenChange={() => setDropdownVisible(!dropdownVisible)}>
         <Button
-          type="primary"
+          type="text"
           icon={
           <MoreOutlined
             rotate={dropdownVisible ? 90 : 0}
