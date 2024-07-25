@@ -7,7 +7,6 @@ interface TableActionDropdownProps {
   catalog: string;
   schema: string;
   table: string;
-  tableFullName: string;
 }
 
 enum TableActionsEnum {
@@ -20,7 +19,6 @@ export default function TableActionsDropdown({
   catalog,
   schema,
   table,
-  tableFullName,
 }: TableActionDropdownProps) {
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
   const [action, setAction] = useState<TableActionsEnum | null>(null);
@@ -55,7 +53,6 @@ export default function TableActionsDropdown({
       <DeleteTableModal
         open={action === TableActionsEnum.Delete}
         closeModal={() => setAction(null)}
-        tableFullName={tableFullName}
         catalog={catalog}
         schema={schema}
         table={table} />

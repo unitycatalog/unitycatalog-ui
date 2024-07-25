@@ -27,7 +27,7 @@ export default function TableDetails() {
         <Typography.Title level={3}>
           <TableOutlined /> {tableFullName}
         </Typography.Title>
-          <TableActionsDropdown catalog={catalog} schema={schema} table={table} tableFullName={tableFullName} />
+          <TableActionsDropdown catalog={catalog} schema={schema} table={table}  />
         </Flex>
       }
       breadcrumbs={[

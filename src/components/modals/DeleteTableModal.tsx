@@ -7,7 +7,6 @@ import { useNotification } from '../../utils/NotificationContext';
 interface DeleteTableModalProps {
   open: boolean;
   closeModal: () => void;
-  tableFullName: string;
   catalog: string;
   schema: string;
   table: string;
@@ -16,7 +15,6 @@ interface DeleteTableModalProps {
 export function DeleteTableModal({
   open,
   closeModal,
-  tableFullName,
   catalog,
   schema,
   table,
@@ -31,7 +29,7 @@ export function DeleteTableModal({
     catalog,
     schema
   });
-
+  const tableFullName = [catalog, schema, table].join('.');
   const handleSubmit = useCallback(() => {
     mutation.mutate({ catalog_name: catalog, schema_name: schema, name: table } );
   }, [mutation, catalog, schema, table]);
