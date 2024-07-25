@@ -71,14 +71,16 @@ export interface DeleteTableMutationParams extends Pick<TableInterface, 'catalog
 
 interface DeleteTableParams {
   onSuccessCallback?: () => void;
+  catalog: string;
+  schema: string;
 }
 
-export function useDeleteTable({ onSuccessCallback }: DeleteTableParams = {}) {
+export function useDeleteTable({ onSuccessCallback, catalog, schema }: DeleteTableParams) {
   const queryClient = useQueryClient();
 
   return useMutation<void, unknown, DeleteTableMutationParams>({
-    mutationFn: async (params: DeleteTableMutationParams) : Promise<void> => {
-      const response = await fetch(`${UC_API_PREFIX}/tables/${params.catalog_name}.${params.schema_name}.${params.name}`, {
+    mutationFn: async ({ catalog_name, schema_name, name}: DeleteTableMutationParams) : Promise<void> => {
+      const response = await fetch(`${UC_API_PREFIX}/tables/${catalog_name}.${schema_name}.${name}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -89,7 +91,7 @@ export function useDeleteTable({ onSuccessCallback }: DeleteTableParams = {}) {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['listTables', 'catalog', 'schema'] });
+      queryClient.invalidateQueries({ queryKey: ['listTables', catalog, schema] });
       onSuccessCallback?.();
     },
   });

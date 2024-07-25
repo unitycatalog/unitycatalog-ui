@@ -28,6 +28,8 @@ export function DeleteTableModal({
       setNotification(`${table} table successfully deleted`, 'success');
       navigate(`/data/${catalog}/${schema}`);
     },
+    catalog,
+    schema
   });
 
   const handleSubmit = useCallback(() => {
@@ -47,13 +49,13 @@ export function DeleteTableModal({
       okButtonProps={{ loading: mutation.isPending }}
     >
       <Typography.Text>
-        {`Are you sure you want to delete the table `}
+        Are you sure you want to delete the table
       </Typography.Text>
       <Typography.Text strong>
-        {tableFullName}
+        {` ${tableFullName}`}
       </Typography.Text>
       <Typography.Text>
-        {`? This operation cannot be undone. `}
+        ? This operation cannot be undone.
       </Typography.Text>
 
     </Modal>
