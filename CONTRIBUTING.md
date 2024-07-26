@@ -39,7 +39,7 @@ Try to do one pull request per change.
 5. Install the dependencies and start the development server
 
    ```sh
-    yarn
+   yarn
    yarn start
    ```
 
