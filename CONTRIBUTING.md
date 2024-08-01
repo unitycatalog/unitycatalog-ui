@@ -4,6 +4,10 @@ First off, thank you for considering contributing to unitycatalog-ui.
 
 We use [GitHub Issues](https://github.com/unitycatalog/unitycatalog-ui/issues) to track community-reported issues and [GitHub Pull Requests](https://github.com/unitycatalog/unitycatalog-ui/pulls) for accepting changes. If your contribution is not straightforward, please first discuss the change you wish to make by creating a new issue before making the change.
 
+## Code of Conduct
+
+Please review our [Code of Conduct](https://github.com/unitycatalog/unitycatalog/blob/main/CODE_OF_CONDUCT.md) before participating. We expect all contributors to adhere to the guidelines outlined there.
+
 ## Reporting issues
 
 Before reporting an issue on the
