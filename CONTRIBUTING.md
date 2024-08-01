@@ -10,10 +10,7 @@ Please review our [Code of Conduct](https://github.com/unitycatalog/unitycatalog
 
 ## Reporting issues
 
-Before reporting an issue on the
-[issue tracker](https://github.com/unitycatalog/unitycatalog-ui/issues),
-please check that it has not already been reported by searching for some related
-keywords.
+Before reporting an issue on the [issue tracker](https://github.com/unitycatalog/unitycatalog-ui/issues), please check that it has not already been reported by searching for some related keywords.
 
 ## Pull requests
 
