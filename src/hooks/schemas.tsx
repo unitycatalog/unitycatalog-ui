@@ -91,7 +91,8 @@ export function useCreateSchema({
   });
 }
 
-export interface DeleteSchemaMutationParams extends Pick<SchemaInterface, 'catalog_name' | 'name'> {}
+export interface DeleteSchemaMutationParams
+  extends Pick<SchemaInterface, 'catalog_name' | 'name'> {}
 
 interface DeleteSchemaParams {
   onSuccessCallback?: () => void;
@@ -106,9 +107,12 @@ export function useDeleteSchema({
 
   return useMutation<void, Error, DeleteSchemaMutationParams>({
     mutationFn: async (params: DeleteSchemaMutationParams) => {
-      const response = await fetch(`${UC_API_PREFIX}/schemas/${params.catalog_name}.${params.name}`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `${UC_API_PREFIX}/schemas/${params.catalog_name}.${params.name}`,
+        {
+          method: 'DELETE',
+        },
+      );
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to delete schema');

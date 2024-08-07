@@ -12,7 +12,9 @@ enum SchemaActionsEnum {
   Delete,
 }
 
-export default function SchemaActionsDropdown({ catalog, schema,
+export default function SchemaActionsDropdown({
+  catalog,
+  schema,
 }: SchemaActionDropdownProps) {
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
   const [action, setAction] = useState<SchemaActionsEnum | null>(null);

@@ -30,7 +30,7 @@ export default function SchemaDetails() {
             <DatabaseOutlined /> {schemaFullName}
           </Typography.Title>
           <Flex gap="middle">
-            <SchemaActionsDropdown catalog={catalog} schema={schema}  />
+            <SchemaActionsDropdown catalog={catalog} schema={schema} />
             <CreateAssetsDropdown catalog={catalog} schema={schema} />
           </Flex>
         </Flex>
