@@ -107,7 +107,7 @@ export function useUpdateCatalog() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['getCatalog'],
+        queryKey: ['getCatalog', params.name],
       });
     },
   });
