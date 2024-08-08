@@ -67,13 +67,11 @@ export default function CatalogDetails() {
                 setNotification(error.message, 'error');
               },
               onSuccess: (catalog) => {
-                {
-                  setNotification(
-                    `${catalog.name} catalog successfully updated`,
-                    'success',
-                  );
-                  setOpen(false);
-                }
+                setNotification(
+                  `${catalog.name} catalog successfully updated`,
+                  'success',
+                );
+                setOpen(false);
               },
             },
           )
