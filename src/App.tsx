@@ -16,6 +16,7 @@ import CatalogsList from './pages/CatalogsList';
 import CatalogDetails from './pages/CatalogDetails';
 import SchemaDetails from './pages/SchemaDetails';
 import { NotificationProvider } from './utils/NotificationContext';
+import Login from './pages/Login';
 
 const router = createBrowserRouter([
   {
@@ -66,8 +67,11 @@ function AppProvider() {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { staleTime: 1000 * 5 * 60 } },
   });
+  const loggedIn = false;
 
-  return (
+  return !loggedIn ? (
+    <Login />
+    ) : (
     <QueryClientProvider client={queryClient}>
       <ConfigProvider
         theme={{
