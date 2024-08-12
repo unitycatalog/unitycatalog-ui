@@ -55,7 +55,7 @@ function AppProvider() {
   const loggedIn = false;
   return !loggedIn ? (
     <Login />
-  ) :  (
+  ) : (
     <ConfigProvider
       theme={{
         components: {
