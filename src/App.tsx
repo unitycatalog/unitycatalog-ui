@@ -71,7 +71,7 @@ function AppProvider() {
 
   return !loggedIn ? (
     <Login />
-    ) : (
+  ) : (
     <QueryClientProvider client={queryClient}>
       <ConfigProvider
         theme={{
