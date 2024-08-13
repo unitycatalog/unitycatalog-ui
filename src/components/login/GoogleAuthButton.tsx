@@ -34,7 +34,7 @@ export default function GoogleAuthButton({
       (window as any).google.accounts.id.renderButton(
         document.getElementById('google-client-button'),
         {
-          text: 'Continue with Google', // customization attributes
+          text: 'continue_with', // customization attributes
           width: 240,
           theme: 'outline',
         },

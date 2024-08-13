@@ -1,6 +1,7 @@
 import { Flex, Layout, Typography } from 'antd';
 import React from 'react';
 import GoogleAuthButton from '../components/login/GoogleAuthButton';
+import OktaAuthButton from '../components/login/OktaAuthButton';
 
 export default function () {
   const googleEnabled = process.env.REACT_APP_GOOGLE_AUTH_ENABLED === 'true';
@@ -54,7 +55,12 @@ export default function () {
                 onGoogleSignIn={(cred: string) => console.log('cred', cred)}
               />
             )}
-            {oktaEnabled ? <Typography>okta</Typography> : null}
+            {oktaEnabled && (
+              <OktaAuthButton
+                onSuccess={(tokens: any) => console.log('tokens', tokens)}
+                onError={(error: Error) => console.log('error', error)}
+              />
+            )}
             {keycloakEnabled && <Typography>keycloak</Typography>}
             {!googleEnabled && !oktaEnabled && !keycloakEnabled && (
               <Typography>Auth providers have not been enabled</Typography>
