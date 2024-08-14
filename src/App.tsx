@@ -17,6 +17,7 @@ import CatalogDetails from './pages/CatalogDetails';
 import SchemaDetails from './pages/SchemaDetails';
 import { NotificationProvider } from './utils/NotificationContext';
 import Login from './pages/Login';
+import { AuthProvider } from './context/auth-context';
 
 const router = createBrowserRouter([
   {
@@ -131,7 +132,9 @@ function App() {
   return (
     <NotificationProvider>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />
+        <AuthProvider>
+          <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />
+        </AuthProvider>
       </QueryClientProvider>
     </NotificationProvider>
   );
