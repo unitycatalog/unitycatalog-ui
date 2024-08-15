@@ -2,12 +2,15 @@ import { Flex, Layout, Typography } from 'antd';
 import React from 'react';
 import GoogleAuthButton from '../components/login/GoogleAuthButton';
 import OktaAuthButton from '../components/login/OktaAuthButton';
+import { useAuth } from '../context/auth-context';
 
 export default function () {
   const googleEnabled = process.env.REACT_APP_GOOGLE_AUTH_ENABLED === 'true';
   const oktaEnabled = process.env.REACT_APP_OKTA_AUTH_ENABLED === 'true';
   const keycloakEnabled =
     process.env.REACT_APP_KEYCLOAK_AUTH_ENABLED === 'true';
+
+  const { loginWithToken, logout } = useAuth();
 
   return (
     <Layout
