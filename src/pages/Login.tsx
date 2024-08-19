@@ -4,14 +4,27 @@ import GoogleAuthButton from '../components/login/GoogleAuthButton';
 import OktaAuthButton from '../components/login/OktaAuthButton';
 import { useAuth } from '../context/auth-context';
 import KeycloakAuthButton from '../components/login/KeycloakAuthButton';
+import { useNotification } from '../utils/NotificationContext';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function () {
+  const { setNotification } = useNotification();
+  const { loginWithToken, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || '/';
   const googleEnabled = process.env.REACT_APP_GOOGLE_AUTH_ENABLED === 'true';
   const oktaEnabled = process.env.REACT_APP_OKTA_AUTH_ENABLED === 'true';
   const keycloakEnabled =
     process.env.REACT_APP_KEYCLOAK_AUTH_ENABLED === 'true';
 
-  const { loginWithToken, logout } = useAuth();
+  const handleGoogleSignIn = (idToken: string) => {
+    loginWithToken(idToken)
+      .then(() => navigate(from, { replace: true }))
+      .catch((e: any) => {
+        setNotification(e.message, 'error');
+      });
+  };
 
   return (
     <Layout
@@ -56,7 +69,7 @@ export default function () {
             </Typography.Title>
             {googleEnabled && (
               <GoogleAuthButton
-                onGoogleSignIn={(cred: string) => console.log('cred', cred)}
+                onGoogleSignIn={handleGoogleSignIn}
               />
             )}
             {oktaEnabled && (

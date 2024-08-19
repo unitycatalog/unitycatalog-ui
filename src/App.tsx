@@ -17,7 +17,7 @@ import CatalogDetails from './pages/CatalogDetails';
 import SchemaDetails from './pages/SchemaDetails';
 import { NotificationProvider } from './utils/NotificationContext';
 import Login from './pages/Login';
-import { AuthProvider } from './context/auth-context';
+import { AuthProvider, useAuth } from './context/auth-context';
 
 const router = createBrowserRouter([
   {
