@@ -20,8 +20,8 @@ function AuthProvider(props: any) {
   const loginWithTokenMutation = useLoginWithToken();
 
   const loginWithToken = useCallback(
-    (idToken: string) => {
-      loginWithTokenMutation.mutate(idToken, {
+    async (idToken: string) => {
+      return loginWithTokenMutation.mutate(idToken, {
         onSuccess: (response) => {
           setAccessToken(response.access_token);
         },

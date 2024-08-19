@@ -52,8 +52,9 @@ const router = createBrowserRouter([
 ]);
 
 function AppProvider() {
+  const { accessToken } = useAuth();
   const navigate = useNavigate();
-  const loggedIn = false;
+  const loggedIn = accessToken !== '';
   return !loggedIn ? (
     <Login />
   ) : (

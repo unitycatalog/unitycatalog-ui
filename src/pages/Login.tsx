@@ -18,8 +18,8 @@ export default function () {
   const keycloakEnabled =
     process.env.REACT_APP_KEYCLOAK_AUTH_ENABLED === 'true';
 
-  const handleGoogleSignIn = (idToken: string) => {
-    loginWithToken(idToken)
+  const handleGoogleSignIn = async (idToken: string) => {
+    await loginWithToken(idToken)
       .then(() => navigate(from, { replace: true }))
       .catch((e: any) => {
         setNotification(e.message, 'error');
@@ -68,9 +68,7 @@ export default function () {
               Login to Unity Catalog
             </Typography.Title>
             {googleEnabled && (
-              <GoogleAuthButton
-                onGoogleSignIn={handleGoogleSignIn}
-              />
+              <GoogleAuthButton onGoogleSignIn={handleGoogleSignIn} />
             )}
             {oktaEnabled && (
               <OktaAuthButton
