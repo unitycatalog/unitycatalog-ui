@@ -30,8 +30,8 @@ function AuthProvider(props: any) {
     [loginWithTokenMutation],
   );
 
-  const logout = useCallback(() => {
-    setAccessToken('');
+  const logout = useCallback(async () => {
+    return setAccessToken('');
   }, []);
 
   useEffect(() => {

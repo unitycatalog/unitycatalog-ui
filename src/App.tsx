@@ -1,5 +1,13 @@
-import React from 'react';
-import { ConfigProvider, Layout, Menu } from 'antd';
+import React, { useMemo } from 'react';
+import {
+  Avatar,
+  ConfigProvider,
+  Dropdown,
+  Layout,
+  Menu,
+  MenuProps,
+  Typography,
+} from 'antd';
 import {
   createBrowserRouter,
   Outlet,
@@ -18,6 +26,7 @@ import SchemaDetails from './pages/SchemaDetails';
 import { NotificationProvider } from './utils/NotificationContext';
 import Login from './pages/Login';
 import { AuthProvider, useAuth } from './context/auth-context';
+import { UserOutlined } from '@ant-design/icons';
 
 const router = createBrowserRouter([
   {
@@ -52,9 +61,33 @@ const router = createBrowserRouter([
 ]);
 
 function AppProvider() {
-  const { accessToken } = useAuth();
+  const { accessToken, logout } = useAuth();
   const navigate = useNavigate();
   const loggedIn = accessToken !== '';
+
+  const profileMenuItems = useMemo(
+    (): MenuProps['items'] => [
+      {
+        key: 'userInfo',
+        label: (
+          <div style={{ display: 'flex', flexDirection: 'column', cursor: 'default' }}>
+            <Typography.Text>User name here</Typography.Text>
+            <Typography.Text>user.email@goeshere.com</Typography.Text>
+          </div>
+        ),
+      },
+      {
+        type: 'divider',
+      },
+      {
+        key: 'logout',
+        label: 'Log out',
+        onClick: () => logout().then(() => navigate('/')),
+      },
+    ],
+    [],
+  );
+
   return !loggedIn ? (
     <Login />
   ) : (
@@ -70,23 +103,54 @@ function AppProvider() {
     >
       <Layout>
         {/* Header */}
-        <Layout.Header style={{ display: 'flex', alignItems: 'center' }}>
-          <div style={{ marginRight: 24 }} onClick={() => navigate('/')}>
-            <img src="/uc-logo-reverse.png" height={32} alt="uc-logo-reverse" />
+        <Layout.Header
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
+            justifyContent: 'space-between',
+          }}
+        >
+          <div
+            style={{ display: 'flex', alignItems: 'center', flex: '1 0 auto' }}
+          >
+            <div style={{ marginRight: 24 }} onClick={() => navigate('/')}>
+              <img
+                src="/uc-logo-reverse.png"
+                height={32}
+                alt="uc-logo-reverse"
+              />
+            </div>
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              defaultSelectedKeys={['catalogs']}
+              items={[
+                {
+                  key: 'catalogs',
+                  label: 'Catalogs',
+                  onClick: () => navigate('/'),
+                },
+              ]}
+              style={{ flex: 1, minWidth: 0 }}
+            />
           </div>
-          <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={['catalogs']}
-            items={[
-              {
-                key: 'catalogs',
-                label: 'Catalogs',
-                onClick: () => navigate('/'),
-              },
-            ]}
-            style={{ flex: 1, minWidth: 0 }}
-          />
+          <div>
+            <Dropdown
+              menu={{ items: profileMenuItems }}
+              trigger={['click']}
+              placement={'bottomRight'}
+            >
+              <Avatar
+                icon={<UserOutlined />}
+                style={{
+                  backgroundColor: 'white',
+                  color: 'black',
+                  cursor: 'pointer',
+                }}
+              />
+            </Dropdown>
+          </div>
         </Layout.Header>
         {/* Content */}
         <Layout.Content
