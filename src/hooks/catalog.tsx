@@ -73,16 +73,16 @@ export function useCreateCatalog() {
 }
 
 export interface UpdateCatalogMutationParams
-  extends Pick<CatalogInterface, 'name' | 'comment'> {}
+  extends Pick<CatalogInterface, 'comment'> {}
 
 // Update a new catalog
-export function useUpdateCatalog() {
+export function useUpdateCatalog(catalog: string) {
   const queryClient = useQueryClient();
 
   return useMutation<CatalogInterface, Error, UpdateCatalogMutationParams>({
     mutationFn: async (params: UpdateCatalogMutationParams) => {
       return apiClient
-        .patch(`/catalogs/${params.name}`, JSON.stringify(params))
+        .patch(`/catalogs/${catalog}`, JSON.stringify(params))
         .then((response) => response.data)
         .catch((e) => {
           throw new Error(

@@ -85,7 +85,7 @@ interface UpdateSchemaParams {
   schema: string;
 }
 export interface UpdateSchemaMutationParams
-  extends Pick<SchemaInterface, 'name' | 'comment'> {}
+  extends Pick<SchemaInterface, 'comment'> {}
 
 // Update a new schema
 export function useUpdateSchema({ catalog, schema }: UpdateSchemaParams) {
