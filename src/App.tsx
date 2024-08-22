@@ -70,7 +70,13 @@ function AppProvider() {
       {
         key: 'userInfo',
         label: (
-          <div style={{ display: 'flex', flexDirection: 'column', cursor: 'default' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              cursor: 'default',
+            }}
+          >
             <Typography.Text>User name here</Typography.Text>
             <Typography.Text>user.email@goeshere.com</Typography.Text>
           </div>

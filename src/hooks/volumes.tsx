@@ -5,7 +5,6 @@ import {
   UseQueryOptions,
 } from '@tanstack/react-query';
 import apiClient from '../context/client';
-import { UC_API_PREFIX } from '../utils/constants';
 
 export interface VolumeInterface {
   volume_id: string;
@@ -89,21 +88,14 @@ export function useUpdateVolume({
     mutationFn: async (params: UpdateVolumeMutationParams) => {
       const fullVolumeName = [catalog, schema, volume].join('.');
 
-      const response = await fetch(
-        `${UC_API_PREFIX}/volumes/${fullVolumeName}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(params),
-        },
-      );
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update volume');
-      }
-      return response.json();
+      return apiClient
+        .patch(`/volumes/${fullVolumeName}`, JSON.stringify(params))
+        .then((response) => response.data)
+        .catch((e) => {
+          throw new Error(
+            e.response?.data?.message || 'Failed to update volume',
+          );
+        });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

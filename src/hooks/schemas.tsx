@@ -5,7 +5,6 @@ import {
   UseQueryOptions,
 } from '@tanstack/react-query';
 import apiClient from '../context/client';
-import { UC_API_PREFIX } from '../utils/constants';
 
 export interface SchemaInterface {
   schema_id: string;
@@ -96,21 +95,14 @@ export function useUpdateSchema({ catalog, schema }: UpdateSchemaParams) {
     mutationFn: async (params: UpdateSchemaMutationParams) => {
       const fullSchemaName = [catalog, schema].join('.');
 
-      const response = await fetch(
-        `${UC_API_PREFIX}/schemas/${fullSchemaName}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(params),
-        },
-      );
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update schema');
-      }
-      return response.json();
+      return apiClient
+        .patch(`/schemas/${fullSchemaName}`, JSON.stringify(params))
+        .then((response) => response.data)
+        .catch((e) => {
+          throw new Error(
+            e.response?.data?.message || 'Failed to update schema',
+          );
+        });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
