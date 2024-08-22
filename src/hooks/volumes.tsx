@@ -5,6 +5,7 @@ import {
   UseQueryOptions,
 } from '@tanstack/react-query';
 import apiClient from '../context/client';
+import { UC_API_PREFIX } from '../utils/constants';
 
 export interface VolumeInterface {
   volume_id: string;
