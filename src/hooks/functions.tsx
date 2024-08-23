@@ -77,6 +77,56 @@ export function useGetFunction({
   });
 }
 
+interface UpdateFunctionParams {
+  catalog: string;
+  schema: string;
+  ucFunction: string;
+}
+export interface UpdateFunctionMutationParams
+  extends Pick<FunctionInterface, 'name' | 'comment'> {}
+
+// Update a new function
+export function useUpdateFunction({
+  catalog,
+  schema,
+  ucFunction,
+}: UpdateFunctionParams) {
+  const queryClient = useQueryClient();
+
+  return useMutation<FunctionInterface, Error, UpdateFunctionMutationParams>({
+    mutationFn: async (params: UpdateFunctionMutationParams) => {
+      const fullFunctionName = [catalog, schema, ucFunction].join('.');
+
+      const response = await fetch(
+        `${UC_API_PREFIX}/functions/${fullFunctionName}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(params),
+        },
+      );
+
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const jsonData = await response.json();
+        if (!response.ok) {
+          throw new Error(jsonData.message || 'Failed to update function');
+        }
+        return jsonData;
+      } else {
+        throw new Error('Unexpected response format');
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['getFunction', catalog, schema, ucFunction],
+      });
+    },
+  });
+}
+
 export interface DeleteFunctionMutationParams
   extends Pick<FunctionInterface, 'catalog_name' | 'schema_name' | 'name'> {}
 
