@@ -83,7 +83,7 @@ export function useCreateSchema() {
     },
   });
 }
-// =========================
+
 interface UpdateSchemaParams {
   catalog: string;
   schema: string;
@@ -122,8 +122,6 @@ export function useUpdateSchema({ catalog, schema }: UpdateSchemaParams) {
     },
   });
 }
-
-// =========================
 
 export interface DeleteSchemaMutationParams
   extends Pick<SchemaInterface, 'catalog_name' | 'name'> {}

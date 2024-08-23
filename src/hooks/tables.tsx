@@ -72,6 +72,43 @@ export function useGetTable({ catalog, schema, table }: GetTableParams) {
   });
 }
 
+interface UpdateTableParams {
+  catalog: string;
+  schema: string;
+  table: string;
+}
+export interface UpdateTableMutationParams
+  extends Pick<TableInterface, 'name' | 'comment'> {}
+
+// Update a new table
+export function useUpdateTable({ catalog, schema, table }: UpdateTableParams) {
+  const queryClient = useQueryClient();
+
+  return useMutation<TableInterface, Error, UpdateTableMutationParams>({
+    mutationFn: async (params: UpdateTableMutationParams) => {
+      const fullTableName = [catalog, schema, table].join('.');
+
+      const response = await fetch(`${UC_API_PREFIX}/tables/${fullTableName}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update table');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['getTable', catalog, schema, table],
+      });
+    },
+  });
+}
+
 export interface DeleteTableMutationParams
   extends Pick<TableInterface, 'catalog_name' | 'schema_name' | 'name'> {}
 
