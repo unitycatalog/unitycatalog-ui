@@ -1,22 +1,26 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLoginWithToken } from '../hooks/user';
+import { useGetCurrentUser, useLoginWithToken } from '../hooks/user';
 import apiClient from './client';
 
 interface AuthContextProps {
   accessToken: any;
   loginWithToken: any;
   logout: any;
+  currentUser: any;
 }
 
 const AuthContext = React.createContext<AuthContextProps>({
   accessToken: null,
   loginWithToken: null,
   logout: null,
+  currentUser: null,
 });
 AuthContext.displayName = 'AuthContext';
 
 function AuthProvider(props: any) {
   const [accessToken, setAccessToken] = useState<string>('');
+  const { data, refetch } = useGetCurrentUser(accessToken);
+  const currentUser = useMemo(() => data, [data]);
   const loginWithTokenMutation = useLoginWithToken();
 
   const loginWithToken = useCallback(
@@ -67,8 +71,9 @@ function AuthProvider(props: any) {
       accessToken,
       loginWithToken,
       logout,
+      currentUser,
     }),
-    [accessToken, loginWithToken, logout],
+    [accessToken, loginWithToken, logout, currentUser],
   );
 
   return <AuthContext.Provider value={value} {...props} />;

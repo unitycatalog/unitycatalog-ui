@@ -75,7 +75,7 @@ interface UpdateVolumeParams {
 }
 
 export interface UpdateVolumeMutationParams
-  extends Pick<VolumeInterface, 'name' | 'comment'> {}
+  extends Pick<VolumeInterface, 'comment'> {}
 
 export function useUpdateVolume({
   catalog,
