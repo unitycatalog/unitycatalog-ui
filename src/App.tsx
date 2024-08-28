@@ -94,9 +94,11 @@ function AppProvider() {
     [],
   );
 
-  return !loggedIn ? (
-    <Login />
-  ) : (
+  // commenting login UI for now until repositories are merged
+  // return !loggedIn ? (
+  //   <Login />
+  // ) : (
+  return (
     <ConfigProvider
       theme={{
         components: {
@@ -141,22 +143,22 @@ function AppProvider() {
               style={{ flex: 1, minWidth: 0 }}
             />
           </div>
-          <div>
-            <Dropdown
-              menu={{ items: profileMenuItems }}
-              trigger={['click']}
-              placement={'bottomRight'}
-            >
-              <Avatar
-                icon={<UserOutlined />}
-                style={{
-                  backgroundColor: 'white',
-                  color: 'black',
-                  cursor: 'pointer',
-                }}
-              />
-            </Dropdown>
-          </div>
+          {/*<div>*/}
+          {/*  <Dropdown*/}
+          {/*    menu={{ items: profileMenuItems }}*/}
+          {/*    trigger={['click']}*/}
+          {/*    placement={'bottomRight'}*/}
+          {/*  >*/}
+          {/*    <Avatar*/}
+          {/*      icon={<UserOutlined />}*/}
+          {/*      style={{*/}
+          {/*        backgroundColor: 'white',*/}
+          {/*        color: 'black',*/}
+          {/*        cursor: 'pointer',*/}
+          {/*      }}*/}
+          {/*    />*/}
+          {/*  </Dropdown>*/}
+          {/*</div>*/}
         </Layout.Header>
         {/* Content */}
         <Layout.Content
@@ -193,6 +195,7 @@ function AppProvider() {
       </Layout>
     </ConfigProvider>
   );
+  // );
 }
 
 function App() {
