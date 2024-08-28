@@ -19,8 +19,7 @@ AuthContext.displayName = 'AuthContext';
 
 function AuthProvider(props: any) {
   const [accessToken, setAccessToken] = useState<string>('');
-  const { data, refetch } = useGetCurrentUser(accessToken);
-  const currentUser = useMemo(() => data, [data]);
+  const { data: currentUser, refetch } = useGetCurrentUser(accessToken);
   const loginWithTokenMutation = useLoginWithToken();
 
   const loginWithToken = useCallback(
