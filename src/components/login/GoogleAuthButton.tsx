@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Button } from 'antd';
 
 export default function GoogleAuthButton({
@@ -6,7 +6,6 @@ export default function GoogleAuthButton({
 }: {
   onGoogleSignIn: (credential: string) => void;
 }) {
-  const [gsiScriptLoaded, setGsiScriptLoaded] = useState(false);
   const clientId = useMemo(() => process.env.REACT_APP_GOOGLE_CLIENT_ID, []);
 
   const handleGoogleSignIn = useCallback(
@@ -18,14 +17,19 @@ export default function GoogleAuthButton({
   );
 
   useEffect(() => {
-    if (gsiScriptLoaded) return;
+    const url = 'https://accounts.google.com/gsi/client';
+    const scripts = document.getElementsByTagName('script');
+    const isGsiScriptLoaded = Array.from(scripts).some(
+      (script) => script.src === url,
+    );
+
+    if (isGsiScriptLoaded) return;
 
     const initializeGsi = () => {
       // Typescript will complain about window.google
       // Add types to your `react-app-env.d.ts` or //@ts-ignore it.
-      if (!(window as any).google || gsiScriptLoaded) return;
+      if (!(window as any).google || isGsiScriptLoaded) return;
 
-      setGsiScriptLoaded(true);
       (window as any).google.accounts.id.initialize({
         client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
         callback: handleGoogleSignIn,
@@ -54,7 +58,7 @@ export default function GoogleAuthButton({
       (window as any).google?.accounts.id.cancel();
       document.getElementById('google-client-script')?.remove();
     };
-  }, [handleGoogleSignIn, gsiScriptLoaded]);
+  }, [handleGoogleSignIn]);
 
   return (
     <>
